@@ -10,13 +10,20 @@ export const AuthContextProvider = ({ children }) => {
 
   //After the page Rendering completes
   useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
+    const ubsub = onAuthStateChanged(auth, (user) => {
       setcurrentUser(user);
       console.log(user);
     });
+
+    //clean up for memroy leaking
+    return () => {
+      ubsub();
+    };
   }, []);
 
-  <AuthContext.Provider value={{ currentUser }}>
-    {children}
-  </AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={{ currentUser }}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
