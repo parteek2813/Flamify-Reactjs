@@ -4,6 +4,23 @@
   box-sizing: border-box;
 }
 
+@mixin mobile {
+  @media screen and (max-width: 480px) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media screen and (max-width: 768px) {
+    @content;
+  }
+}
+@mixin laptop {
+  @media screen and (max-width: 1200px) {
+    @content;
+  }
+}
+
 .formContainer {
   background-color: #a7bcff;
   height: 100vh;
@@ -92,10 +109,14 @@
     height: 80%;
     display: flex;
     overflow: hidden;
+    @include tablet {
+      width: 90%;
+    }
 
     .sidebar {
       flex: 1;
       background-color: #3e3c61;
+      position: relative;
 
       .navbar {
         display: flex;
@@ -108,6 +129,9 @@
 
         .logo {
           font-weight: bold;
+          @include tablet {
+            display: none;
+          }
         }
 
         .user {
@@ -131,6 +155,10 @@
             cursor: pointer;
             border-radius: 2px;
             padding: 8px;
+            @include tablet {
+              position: absolute;
+              bottom: 10px;
+            }
           }
         }
       }
@@ -169,16 +197,29 @@
           height: 50px;
           border-radius: 50%;
           object-fit: cover;
+
+          @include mobile {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+          }
         }
 
         .userChatInfo {
           span {
             font-size: 18px;
             font-weight: 500;
+            @include mobile {
+              font-size: 15px;
+            }
           }
           p {
             font-size: 14px;
             color: lightgray;
+            @include mobile {
+              font-size: 10px;
+            }
           }
         }
       }
@@ -211,6 +252,56 @@
         background-color: #ddddf7;
         padding: 10px;
         height: calc(100% - 118px);
+        overflow: scroll;
+
+        .messages {
+          display: flex;
+          gap: 20px;
+          margin-bottom: 20px;
+
+          .messagesInfo {
+            display: flex;
+            flex-direction: column;
+            color: gray;
+            font-weight: 300;
+            img {
+              width: 40px;
+              height: 40px;
+              border-radius: 50%;
+              object-fit: cover;
+            }
+          }
+          .messagesContent {
+            max-width: 80%;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+
+            p {
+              background-color: white;
+              padding: 10px 20px;
+              border-radius: 0px 10px 10px 10px;
+              max-width: max-content;
+            }
+            img {
+              width: 50%;
+            }
+          }
+
+          &.owner {
+            flex-direction: row-reverse;
+
+            .messagesContent {
+              align-items: flex-end;
+
+              p {
+                background-color: #8da4f1;
+                color: white;
+                border-radius: 10px 0px 10px 10px;
+              }
+            }
+          }
+        }
       }
 
       .input {
